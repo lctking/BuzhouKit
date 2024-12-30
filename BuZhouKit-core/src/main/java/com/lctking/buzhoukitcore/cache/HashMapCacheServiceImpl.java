@@ -1,6 +1,6 @@
 package com.lctking.buzhoukitcore.cache;
 
-import com.lctking.buzhoukitcore.exception.cacheException;
+import com.lctking.buzhoukitcore.exception.CacheException;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -15,10 +15,10 @@ public class HashMapCacheServiceImpl<K,V> implements CacheService<K,V> {
     }
 
     @Override
-    public void put(K key, V val) throws cacheException {
+    public void put(K key, V val) throws CacheException {
         if(this.maxSize == cache.size()){
             //cache is full
-            throw new cacheException("cache is full");
+            throw new CacheException("cache is full");
         }
         this.cache.put(key,val);
     }

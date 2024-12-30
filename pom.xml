@@ -5,27 +5,20 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.7</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <version>3.0.12</version>
     </parent>
     <groupId>com.lctking</groupId>
     <artifactId>BuZhouKit</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
     <name>BuZhouKit</name>
     <description>BuZhouKit</description>
-    <url/>
-    <licenses>
-        <license/>
-    </licenses>
-    <developers>
-        <developer/>
-    </developers>
-    <scm>
-        <connection/>
-        <developerConnection/>
-        <tag/>
-        <url/>
-    </scm>
+
+    <modules>
+        <module>dependencies</module>
+        <module>BuZhouKit-core</module>
+    </modules>
+
     <properties>
         <java.version>17</java.version>
     </properties>

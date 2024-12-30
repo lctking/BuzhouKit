@@ -12,6 +12,7 @@
     <name>BuZhouKit-dependencies</name>
     <description>BuZhouKit-dependencies</description>
     <properties>
+        <caffeine.version>3.1.8</caffeine.version>
         <java.version>17</java.version>
         <spring-boot.version>3.0.12</spring-boot.version>
         <spring-cloud.version>2022.0.3</spring-cloud.version>
@@ -157,6 +158,13 @@
                 <artifactId>alipay-easysdk</artifactId>
                 <version>${alipay-easysdk.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.github.ben-manes.caffeine</groupId>
+                <artifactId>caffeine</artifactId>
+                <version>${caffeine.version}</version>
+            </dependency>
+
         </dependencies>
 
 

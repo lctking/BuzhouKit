@@ -15,7 +15,6 @@
     <description>BuZhouKit</description>
 
     <modules>
-        <module>dependencies</module>
         <module>BuZhouKit-core</module>
     </modules>
 
@@ -32,6 +31,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
     </dependencies>
 

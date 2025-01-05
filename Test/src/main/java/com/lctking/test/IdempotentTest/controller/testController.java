@@ -1,9 +1,10 @@
 package com.lctking.test.IdempotentTest.controller;
 
-import com.lctking.buzhoukitcore.annotation.Idempotent;
-import com.lctking.buzhoukitcore.constant.CacheTypeEnum;
-import com.lctking.buzhoukitcore.constant.IdempotentTypeEnum;
+import com.lctking.buzhoukitidempotent.annotation.Idempotent;
+import com.lctking.buzhoukitidempotent.constant.CacheTypeEnum;
+import com.lctking.buzhoukitidempotent.constant.IdempotentTypeEnum;
 import com.lctking.test.IdempotentTest.entity.UserDO;
+import com.lctking.test.IdempotentTest.exception.CustomizeException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.PostMapping;

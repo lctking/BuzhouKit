@@ -59,16 +59,10 @@
         </dependency>
         <dependency>
             <groupId>com.lctking</groupId>
-            <artifactId>BuZhouKit-core</artifactId>
+            <artifactId>BuZhouKit-Idempotent</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
-        <!--        <dependency>-->
-<!--            <groupId>com.lctking</groupId>-->
-<!--            <artifactId>BuZhouKit-core</artifactId>-->
-<!--            <version>0.0.1-SNAPSHOT</version>-->
-<!--            <scope>compile</scope>-->
-<!--        </dependency>-->
     </dependencies>
 
     <build>

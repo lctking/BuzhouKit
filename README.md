@@ -1,5 +1,4 @@
 # BuzhouKit
-##### An idempotent component
 ##### 一个简单的幂等组件库
 ##### A Lightweight Idempotent Component
 ##### 轻量级幂等组件库

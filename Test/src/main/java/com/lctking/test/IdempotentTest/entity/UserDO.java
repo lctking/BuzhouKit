@@ -1,4 +1,4 @@
-package com.lctking.test.entity;
+package com.lctking.test.IdempotentTest.entity;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -15,7 +15,8 @@
     <description>BuZhouKit</description>
 
     <modules>
-        <module>BuZhouKit-core</module>
+<!--        <module>BuZhouKit-core</module>-->
+        <module>BuZhouKit-Idempotent</module>
     </modules>
 
     <properties>

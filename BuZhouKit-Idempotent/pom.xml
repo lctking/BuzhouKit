@@ -7,10 +7,10 @@
         <artifactId>BuZhouKit</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>BuZhouKit-core</artifactId>
+    <artifactId>BuZhouKit-Idempotent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>BuZhouKit-core</name>
-    <description>BuZhouKit-core</description>
+    <name>BuZhouKit-Idempotent</name>
+    <description>BuZhouKit-Idempotent</description>
     <properties>
         <java.version>17</java.version>
     </properties>

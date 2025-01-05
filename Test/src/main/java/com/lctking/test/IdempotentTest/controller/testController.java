@@ -44,7 +44,6 @@ public class testController {
     void insertUser(UserDO userDO){
         System.out.println(userDO.toString());
         System.out.println(userDO.hashCode());
-
     }
 
 }

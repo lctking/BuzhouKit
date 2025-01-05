@@ -1,15 +1,10 @@
 package com.lctking.buzhoukitcore.cache;
 
-import com.lctking.buzhoukitcore.cache.impl.CaffeineCacheServiceImpl;
-import com.lctking.buzhoukitcore.cache.service.CacheService;
-import org.junit.jupiter.api.Assertions;
+import com.lctking.buzhoukitidempotent.cache.service.CacheService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 public class CaffeineCacheServiceTest {
     private CacheService<String, Object> caffeineCache;

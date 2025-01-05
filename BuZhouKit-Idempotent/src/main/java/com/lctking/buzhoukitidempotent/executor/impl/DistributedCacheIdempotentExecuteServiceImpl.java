@@ -5,12 +5,14 @@ import com.lctking.buzhoukitidempotent.cache.service.DistributeCacheService;
 import com.lctking.buzhoukitidempotent.exception.IdempotentException;
 import com.lctking.buzhoukitidempotent.executor.IdempotentArgsWrapper;
 import com.lctking.buzhoukitidempotent.executor.service.DistributedCacheIdempotentExecuteService;
+import com.lctking.buzhoukitidempotent.utils.ExceptionThrower;
 import com.lctking.buzhoukitidempotent.utils.SpELParser;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 
+import java.lang.reflect.Constructor;
 import java.util.concurrent.TimeUnit;
 
 @AllArgsConstructor
@@ -32,7 +34,8 @@ public class DistributedCacheIdempotentExecuteServiceImpl implements Distributed
         String result = (String) cacheService.setIfAbsent(keyForLock, "-", expireTime, timeUnit);
         // result不为空说明插入失败
         if(result != null){
-            throw new IdempotentException(idempotent.message());
+            Class<? extends Throwable> exceptionClass = idempotent.exceptionClass();
+            ExceptionThrower.throwException(exceptionClass, idempotent.message());
         }
 
     }

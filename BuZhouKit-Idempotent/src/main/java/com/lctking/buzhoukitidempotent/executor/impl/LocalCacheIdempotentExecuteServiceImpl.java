@@ -5,6 +5,7 @@ import com.lctking.buzhoukitidempotent.cache.service.LocalCacheService;
 import com.lctking.buzhoukitidempotent.exception.IdempotentException;
 import com.lctking.buzhoukitidempotent.executor.IdempotentArgsWrapper;
 import com.lctking.buzhoukitidempotent.executor.service.LocalCacheIdempotentExecuteService;
+import com.lctking.buzhoukitidempotent.utils.ExceptionThrower;
 import com.lctking.buzhoukitidempotent.utils.SpELParser;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
@@ -32,7 +33,8 @@ public class LocalCacheIdempotentExecuteServiceImpl implements LocalCacheIdempot
         String result = (String) cacheService.setIfAbsent(keyForLock, "-", expireTime, timeUnit);
         // result不为空说明插入失败
         if(result != null){
-            throw new IdempotentException(idempotent.message());
+            Class<? extends Throwable> exceptionClass = idempotent.exceptionClass();
+            ExceptionThrower.throwException(exceptionClass, idempotent.message());
         }
 
     }

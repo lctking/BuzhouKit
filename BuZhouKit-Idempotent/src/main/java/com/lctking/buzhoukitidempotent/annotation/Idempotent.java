@@ -3,6 +3,7 @@ package com.lctking.buzhoukitidempotent.annotation;
 
 import com.lctking.buzhoukitidempotent.constant.CacheTypeEnum;
 import com.lctking.buzhoukitidempotent.constant.IdempotentTypeEnum;
+import com.lctking.buzhoukitidempotent.exception.IdempotentException;
 
 import java.lang.annotation.*;
 import java.util.concurrent.TimeUnit;
@@ -29,4 +30,6 @@ public @interface Idempotent {
     TimeUnit timeUnit() default TimeUnit.SECONDS;
 
     CacheTypeEnum cacheType() default CacheTypeEnum.REDIS;
+
+    Class<? extends Throwable> exceptionClass() default IdempotentException.class;
 }

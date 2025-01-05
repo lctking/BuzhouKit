@@ -25,7 +25,7 @@ public class testController {
             cacheType = CacheTypeEnum.REDIS,
             message = "用户添加请求重复,[BY_REDIS]"
     )
-    public void testIdempotent(@RequestBody UserDO userDO){
+    public void testIdempotentOnDistributedCache(@RequestBody UserDO userDO){
         insertUser(userDO);
     }
 
@@ -37,7 +37,7 @@ public class testController {
             cacheType = CacheTypeEnum.LOCAL,
             message = "用户添加请求重复,[BY_LOCAL]"
     )
-    public void testIdempotentByLocalCache(@RequestBody UserDO userDO){
+    public void testIdempotentOnLocalCache(@RequestBody UserDO userDO){
         insertUser(userDO);
     }
 

@@ -2,8 +2,8 @@ package com.lctking.buzhoukitidempotent.executor;
 
 import com.lctking.buzhoukitidempotent.cache.factory.CacheFactory;
 import com.lctking.buzhoukitidempotent.constant.CacheTypeEnum;
-import com.lctking.buzhoukitidempotent.executor.impl.IdempotentExecuteDistributeServiceImpl;
-import com.lctking.buzhoukitidempotent.executor.impl.IdempotentExecuteLocalServiceImpl;
+import com.lctking.buzhoukitidempotent.executor.impl.DistributedCacheIdempotentExecuteServiceImpl;
+import com.lctking.buzhoukitidempotent.executor.impl.LocalCacheIdempotentExecuteServiceImpl;
 import com.lctking.buzhoukitidempotent.executor.service.IdempotentExecuteService;
 
 public class IdempotentExecuteFactory {
@@ -11,8 +11,8 @@ public class IdempotentExecuteFactory {
     private static final IdempotentExecuteService IDEMPOTENT_EXECUTE_SERVICE_BASED_REDIS;
     private static final IdempotentExecuteService IDEMPOTENT_EXECUTE_SERVICE_BASED_CAFFEINE;
     static {
-        IDEMPOTENT_EXECUTE_SERVICE_BASED_REDIS = new IdempotentExecuteDistributeServiceImpl(CacheFactory.getRedisCache());
-        IDEMPOTENT_EXECUTE_SERVICE_BASED_CAFFEINE = new IdempotentExecuteLocalServiceImpl(CacheFactory.getCaffeineCache());
+        IDEMPOTENT_EXECUTE_SERVICE_BASED_REDIS = new DistributedCacheIdempotentExecuteServiceImpl(CacheFactory.getRedisCache());
+        IDEMPOTENT_EXECUTE_SERVICE_BASED_CAFFEINE = new LocalCacheIdempotentExecuteServiceImpl(CacheFactory.getCaffeineCache());
     }
 
     public static IdempotentExecuteService getInstance(CacheTypeEnum cacheTypeEnum){

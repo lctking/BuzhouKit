@@ -1,10 +1,10 @@
 package com.lctking.buzhoukitidempotent.executor.impl;
 
 import com.lctking.buzhoukitidempotent.annotation.Idempotent;
-import com.lctking.buzhoukitidempotent.cache.service.DistributeCacheService;
+import com.lctking.buzhoukitidempotent.cache.service.LocalCacheService;
 import com.lctking.buzhoukitidempotent.exception.IdempotentException;
 import com.lctking.buzhoukitidempotent.executor.IdempotentArgsWrapper;
-import com.lctking.buzhoukitidempotent.executor.service.IdempotentExecuteDistributeService;
+import com.lctking.buzhoukitidempotent.executor.service.LocalCacheIdempotentExecuteService;
 import com.lctking.buzhoukitidempotent.utils.SpELParser;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
@@ -14,8 +14,8 @@ import org.aspectj.lang.reflect.MethodSignature;
 import java.util.concurrent.TimeUnit;
 
 @AllArgsConstructor
-public class IdempotentExecuteDistributeServiceImpl implements IdempotentExecuteDistributeService {
-    private final DistributeCacheService<String,Object> cacheService;
+public class LocalCacheIdempotentExecuteServiceImpl implements LocalCacheIdempotentExecuteService {
+    private final LocalCacheService<String,Object> cacheService;
 
     @Override
     public void proceed(ProceedingJoinPoint joinPoint, Idempotent idempotent) {
@@ -39,12 +39,12 @@ public class IdempotentExecuteDistributeServiceImpl implements IdempotentExecute
 
     @Override
     public void exceptionProcess() {
-        IdempotentExecuteDistributeService.super.exceptionProcess();
+        LocalCacheIdempotentExecuteService.super.exceptionProcess();
     }
 
     @Override
     public void postProcess() {
-        IdempotentExecuteDistributeService.super.postProcess();
+        LocalCacheIdempotentExecuteService.super.postProcess();
     }
 
     public IdempotentArgsWrapper wrapperBuilder(ProceedingJoinPoint joinPoint, Idempotent idempotent){

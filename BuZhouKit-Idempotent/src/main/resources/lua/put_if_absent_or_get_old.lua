@@ -14,6 +14,13 @@ if old_value then
     return old_value -- 如果键已存在，直接返回旧值
 end
 
--- 如果键不存在，则设置值并设置过期时间
-redis.call('SET', key, value, 'PX', expire_time)
+-- 如果键不存在，则设置值
+if expire_time < 0 then
+    -- 设置永久有效的键
+    redis.call('SET', key, value)
+else
+    -- 设置带过期时间的键
+    redis.call('SET', key, value, 'PX', expire_time)
+end
+
 return nil -- 返回 nil 表示键之前不存在

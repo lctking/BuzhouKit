@@ -24,7 +24,8 @@ public class testController {
             spEL = "#userDO.hashCode()",
             expireTime = 20000L,
             cacheType = CacheTypeEnum.REDIS,
-            message = "用户添加请求重复,[BY_REDIS]"
+            message = "用户添加请求重复,[BY_REDIS]",
+            exceptionClass = CustomizeException.class
     )
     public void testIdempotentOnDistributedCache(@RequestBody UserDO userDO){
         insertUser(userDO);
@@ -36,7 +37,8 @@ public class testController {
             spEL = "#userDO.hashCode()",
             expireTime = 20000L,
             cacheType = CacheTypeEnum.LOCAL,
-            message = "用户添加请求重复,[BY_LOCAL]"
+            message = "用户添加请求重复,[BY_LOCAL]",
+            exceptionClass = CustomizeException.class
     )
     public void testIdempotentOnLocalCache(@RequestBody UserDO userDO){
         insertUser(userDO);

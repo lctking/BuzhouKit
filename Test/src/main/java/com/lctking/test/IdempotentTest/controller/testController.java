@@ -22,7 +22,7 @@ public class testController {
     @Idempotent(type = IdempotentTypeEnum.TOKEN,
             uniquePrefix = "user:insert",
             spEL = "#userDO.hashCode()",
-            expireTime = 20000L,
+            expireTime = -1L,
             cacheType = CacheTypeEnum.REDIS,
             message = "用户添加请求重复,[BY_REDIS]",
             exceptionClass = CustomizeException.class
@@ -35,7 +35,7 @@ public class testController {
     @Idempotent(type = IdempotentTypeEnum.TOKEN,
             uniquePrefix = "user:insert",
             spEL = "#userDO.hashCode()",
-            expireTime = 20000L,
+            expireTime = -1L,
             cacheType = CacheTypeEnum.LOCAL,
             message = "用户添加请求重复,[BY_LOCAL]",
             exceptionClass = CustomizeException.class

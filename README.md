@@ -58,11 +58,39 @@
 
 - exceptionClass：可由注解使用者自由设定的报错时抛出的异常类型，例如上例中的CustomizeException.class即为在测试项目中所配置的自定义异常类（该异常类不在幂等组件库中，可自由设定）。  
 
-### 3，tips
+### 3，功能测试
+#### 功能测试详见Test模块（与BuZhouKit-Idempotent模块并列）
+在application.yml中配置好你的本地redis服务后启动Test服务，进行功能测试：   
+路径：` http://127.0.0.1:8089/Idempotent-test/redisCache-test `  
+请求体[json] :  
+```
+  {
+    "id": 1,
+    "username": "testUser0",
+    "password": "testPassworwd123",
+    "phone": "123-456-7890"
+  }
+```
+#### 3.1 简单测试
+第一次请求，控制台打印：  
+![image](https://github.com/user-attachments/assets/3539277f-6e74-4e0b-b91b-620752238939)
+第二次请求，控制台打印：
+![image](https://github.com/user-attachments/assets/fe5d21b4-c667-4b0b-9926-f6064abe2edc)
+如图所示，不仅抛出了注解使用者自定义的异常类型，还附加了自定义的提示信息。
+#### 3.2 jmeter压测
+##### 条件：25个线程循环一百次；CSV数据文件设置包含一个含有20组json请求的txt文本。预计请求成功率0.8% (20/2500)
+##### 如图，符合预期，组件幂等性验证成功！
+![image](https://github.com/user-attachments/assets/9003c912-8823-47d7-8012-7b43b24b2fbf)
+
+
+
+
+
+### 4，tips
 - 如果你发现幂等注解在某些位置不奏效，请考虑AOP代理失效问题，如：同类内部的直接方法调用，这种调用不经过AOP代理对象，造成幂等注解失效。推荐的解决方法：将被调用方法抽取到合适的服务类接口及其实现类中。
 - ...
 
-### 4，TODO
+### 5，TODO
 - 引入更详细的日志记录功能；  
 - 增加mysql相关功能支持；
 - ...

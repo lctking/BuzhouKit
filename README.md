@@ -74,7 +74,7 @@
 #### 3.1 简单测试
 第一次请求，控制台打印：  
 ![image](https://github.com/user-attachments/assets/3539277f-6e74-4e0b-b91b-620752238939)
-第二次请求，控制台打印：
+第二次请求，控制台打印（成功限流）：
 ![image](https://github.com/user-attachments/assets/fe5d21b4-c667-4b0b-9926-f6064abe2edc)
 如图所示，不仅抛出了注解使用者自定义的异常类型，还附加了自定义的提示信息。
 #### 3.2 jmeter压测

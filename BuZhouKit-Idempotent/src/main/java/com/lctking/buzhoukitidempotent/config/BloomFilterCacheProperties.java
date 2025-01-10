@@ -10,7 +10,15 @@ public class BloomFilterCacheProperties {
 
     private String name = "default_bloom_filter";
 
-    private Long expectedInsertions;
+    /**
+     * 默认-预计插入元素数量
+     */
+    private Long expectedInsertions = 512L;
 
-    private Double falseProbability;
+    /**
+     * 默认-误判率
+     */
+    private Double falseProbability = 0.001D;
+
+    private Boolean enabled = false;
 }

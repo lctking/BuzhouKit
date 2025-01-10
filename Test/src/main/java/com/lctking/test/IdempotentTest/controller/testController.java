@@ -44,6 +44,18 @@ public class testController {
         insertUser(userDO);
     }
 
+    @PostMapping("/BloomFilterCache-test")
+    @Idempotent(type = IdempotentTypeEnum.TOKEN,
+            uniquePrefix = "user:insert",
+            spEL = "#userDO.hashCode()",
+            cacheType = CacheTypeEnum.BLOOM,
+            message = "用户添加请求重复,[BY_BLOOM]",
+            exceptionClass = CustomizeException.class
+    )
+    public void testIdempotentOnBloomCache(@RequestBody UserDO userDO){
+        insertUser(userDO);
+    }
+
     void insertUser(UserDO userDO){
         System.out.println(userDO.toString());
         System.out.println(userDO.hashCode());

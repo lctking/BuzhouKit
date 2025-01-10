@@ -1,6 +1,7 @@
 package com.lctking.buzhoukitidempotent.config;
 
 import com.lctking.buzhoukitidempotent.aspect.IdempotentAspect;
+import com.lctking.buzhoukitidempotent.cache.impl.BloomFilterCacheServiceImpl;
 import com.lctking.buzhoukitidempotent.cache.impl.CaffeineCacheServiceImpl;
 import com.lctking.buzhoukitidempotent.cache.impl.RedisCacheServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -34,9 +35,14 @@ public class IdempotentAutoConfiguration {
 
     @Bean
     @ConditionalOnProperty(prefix = BloomFilterCacheProperties.PREFIX, name = "enabled" ,havingValue = "true")
-    public RBloomFilter<String> BloomFilterCacheServiceImpl(RedissonClient redissonClient, BloomFilterCacheProperties bloomFilterCacheProperties){
+    public RBloomFilter<String> bloomFilterCache(RedissonClient redissonClient, BloomFilterCacheProperties bloomFilterCacheProperties){
         RBloomFilter<String> bloomFilter = redissonClient.getBloomFilter(bloomFilterCacheProperties.getName());
         bloomFilter.tryInit(bloomFilterCacheProperties.getExpectedInsertions(), bloomFilterCacheProperties.getFalseProbability());
         return bloomFilter;
+    }
+
+    @Bean
+    public BloomFilterCacheServiceImpl BloomFilterCacheServiceImpl(RBloomFilter<String> bloomFilterCache){
+        return new BloomFilterCacheServiceImpl(bloomFilterCache);
     }
 }

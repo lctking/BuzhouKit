@@ -9,3 +9,11 @@ spring:
       port: 6379
       database: 2
       password: 123456
+idempotent:
+  cache:
+    redis:
+      bloom-filter:
+        name: bloom_filter_for_test
+        expected-insertions: 1024
+        false-probability: 0.001
+        enabled: true

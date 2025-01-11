@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class RedisCacheServiceImpl<K,V> implements DistributeCacheService<K,V> {
     private final StringRedisTemplate cache;
-    private static final String LUA_SCRIPT_PUT_IF_ABSENT_OR_GET_OLD__PATH = "lua/put_if_absent_or_get_old.lua";
+    private static final String LUA_SCRIPT_PUT_IF_ABSENT_OR_GET_OLD_PATH = "lua/put_if_absent_or_get_old.lua";
 
     //todo
     @Override
@@ -41,7 +41,7 @@ public class RedisCacheServiceImpl<K,V> implements DistributeCacheService<K,V> {
     @Override
     public V setIfAbsent(K key, V value, long expireTime, TimeUnit timeUnit) {
         DefaultRedisScript<String> redisScript = new DefaultRedisScript<>();
-        ClassPathResource resource = new ClassPathResource(LUA_SCRIPT_PUT_IF_ABSENT_OR_GET_OLD__PATH);
+        ClassPathResource resource = new ClassPathResource(LUA_SCRIPT_PUT_IF_ABSENT_OR_GET_OLD_PATH);
         redisScript.setScriptSource(new ResourceScriptSource(resource));
         redisScript.setResultType(String.class);
         String keyStr = "", valueStr = "";

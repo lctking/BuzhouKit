@@ -4,6 +4,7 @@ import com.lctking.buzhoukitidempotent.annotation.Idempotent;
 import com.lctking.buzhoukitidempotent.cache.service.DistributeCacheService;
 import com.lctking.buzhoukitidempotent.exception.IdempotentException;
 import com.lctking.buzhoukitidempotent.executor.IdempotentArgsWrapper;
+import com.lctking.buzhoukitidempotent.executor.IdempotentContext;
 import com.lctking.buzhoukitidempotent.executor.service.DistributedCacheIdempotentExecuteService;
 import com.lctking.buzhoukitidempotent.utils.ExceptionThrower;
 import com.lctking.buzhoukitidempotent.utils.SpELParser;
@@ -19,6 +20,8 @@ import java.util.concurrent.TimeUnit;
 public class DistributedCacheIdempotentExecuteServiceImpl implements DistributedCacheIdempotentExecuteService {
     private final DistributeCacheService<String,Object> cacheService;
 
+    private static final String IDEMPOTENT_DISTRIBUTED_WRAPPER = "Idempotent:distributed:wrapper";
+
     @Override
     public void proceed(ProceedingJoinPoint joinPoint, Idempotent idempotent) {
         execute(wrapperBuilder(joinPoint,idempotent));
@@ -27,6 +30,7 @@ public class DistributedCacheIdempotentExecuteServiceImpl implements Distributed
     @SneakyThrows
     @Override
     public void execute(IdempotentArgsWrapper wrapper) {
+        IdempotentContext.setKey(IDEMPOTENT_DISTRIBUTED_WRAPPER, wrapper);
         Idempotent idempotent = wrapper.getIdempotent();
         long expireTime = idempotent.expireTime();
         TimeUnit timeUnit = idempotent.timeUnit();
@@ -42,12 +46,15 @@ public class DistributedCacheIdempotentExecuteServiceImpl implements Distributed
 
     @Override
     public void exceptionProcess() {
-        DistributedCacheIdempotentExecuteService.super.exceptionProcess();
+        IdempotentArgsWrapper wrapper = (IdempotentArgsWrapper)IdempotentContext.getKey(IDEMPOTENT_DISTRIBUTED_WRAPPER);
+        if (wrapper != null && wrapper.getKeyForLock() != null) {
+            cacheService.remove(wrapper.getKeyForLock());
+        }
     }
 
     @Override
     public void postProcess() {
-        DistributedCacheIdempotentExecuteService.super.postProcess();
+        IdempotentContext.removeContext();
     }
 
     public IdempotentArgsWrapper wrapperBuilder(ProceedingJoinPoint joinPoint, Idempotent idempotent){

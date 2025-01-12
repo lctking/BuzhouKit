@@ -14,6 +14,8 @@ public class RedisCacheServiceImpl<K,V> implements DistributeCacheService<K,V> {
     private final StringRedisTemplate cache;
     private static final String LUA_SCRIPT_PUT_IF_ABSENT_OR_GET_OLD_PATH = "lua/put_if_absent_or_get_old.lua";
 
+    private static final String LUA_SCRIPT_REMOVE_KEY_PATH = "lua/remove_key.lua";
+
     //todo
     @Override
     public V put(K key, V val) {
@@ -71,6 +73,19 @@ public class RedisCacheServiceImpl<K,V> implements DistributeCacheService<K,V> {
 
     @Override
     public void remove(K key) {
-
+        DefaultRedisScript<String> redisScript = new DefaultRedisScript<>();
+        ClassPathResource resource = new ClassPathResource(LUA_SCRIPT_REMOVE_KEY_PATH);
+        redisScript.setScriptSource(new ResourceScriptSource(resource));
+        redisScript.setResultType(String.class);
+        String keyStr = "";
+        try{
+            keyStr = (String) key;
+        }catch (ClassCastException e){
+            keyStr = String.valueOf(key);
+        }
+        String result = cache.execute(redisScript, List.of(keyStr));
+        if(result == null || result.equals("fail")){
+            throw new RuntimeException("fail to remove key");
+        }
     }
 }

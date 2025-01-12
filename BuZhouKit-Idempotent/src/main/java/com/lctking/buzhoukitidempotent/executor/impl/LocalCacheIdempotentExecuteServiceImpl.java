@@ -4,6 +4,7 @@ import com.lctking.buzhoukitidempotent.annotation.Idempotent;
 import com.lctking.buzhoukitidempotent.cache.service.LocalCacheService;
 import com.lctking.buzhoukitidempotent.exception.IdempotentException;
 import com.lctking.buzhoukitidempotent.executor.IdempotentArgsWrapper;
+import com.lctking.buzhoukitidempotent.executor.IdempotentContext;
 import com.lctking.buzhoukitidempotent.executor.service.LocalCacheIdempotentExecuteService;
 import com.lctking.buzhoukitidempotent.utils.ExceptionThrower;
 import com.lctking.buzhoukitidempotent.utils.SpELParser;
@@ -18,6 +19,8 @@ import java.util.concurrent.TimeUnit;
 public class LocalCacheIdempotentExecuteServiceImpl implements LocalCacheIdempotentExecuteService {
     private final LocalCacheService<String,Object> cacheService;
 
+    private static final String IDEMPOTENT_LOCAL_WRAPPER = "Idempotent:local:wrapper";
+
     @Override
     public void proceed(ProceedingJoinPoint joinPoint, Idempotent idempotent) {
         execute(wrapperBuilder(joinPoint,idempotent));
@@ -26,6 +29,7 @@ public class LocalCacheIdempotentExecuteServiceImpl implements LocalCacheIdempot
     @SneakyThrows
     @Override
     public void execute(IdempotentArgsWrapper wrapper) {
+        IdempotentContext.setKey(IDEMPOTENT_LOCAL_WRAPPER, wrapper);
         Idempotent idempotent = wrapper.getIdempotent();
         long expireTime = idempotent.expireTime();
         TimeUnit timeUnit = idempotent.timeUnit();
@@ -41,12 +45,15 @@ public class LocalCacheIdempotentExecuteServiceImpl implements LocalCacheIdempot
 
     @Override
     public void exceptionProcess() {
-        LocalCacheIdempotentExecuteService.super.exceptionProcess();
+        IdempotentArgsWrapper wrapper = (IdempotentArgsWrapper)IdempotentContext.getKey(IDEMPOTENT_LOCAL_WRAPPER);
+        if (wrapper != null && wrapper.getKeyForLock() != null) {
+            cacheService.remove(wrapper.getKeyForLock());
+        }
     }
 
     @Override
     public void postProcess() {
-        LocalCacheIdempotentExecuteService.super.postProcess();
+        IdempotentContext.removeContext();
     }
 
     public IdempotentArgsWrapper wrapperBuilder(ProceedingJoinPoint joinPoint, Idempotent idempotent){

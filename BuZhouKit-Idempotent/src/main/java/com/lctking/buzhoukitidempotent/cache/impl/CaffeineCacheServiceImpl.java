@@ -18,17 +18,28 @@ public class CaffeineCacheServiceImpl<K,V> implements LocalCacheService<K,V> {
 
     public Cache<K,V> createSingleCaffeineCache(int initSize, int maxSize, long expireTime, TimeUnit timeUnit, boolean isWeakKeys) {
         if(isWeakKeys){
-            return Caffeine.newBuilder()
+            if(expireTime >= 0)return Caffeine.newBuilder()
                     .expireAfterWrite(expireTime,timeUnit)
                     .initialCapacity(initSize)
                     .maximumSize(maxSize)
                     .weakKeys()
                     .build();
-        }else return Caffeine.newBuilder()
-                .expireAfterWrite(expireTime,timeUnit)
-                .initialCapacity(initSize)
-                .maximumSize(maxSize)
-                .build();
+            else return Caffeine.newBuilder()
+                    .initialCapacity(initSize)
+                    .maximumSize(maxSize)
+                    .weakKeys()
+                    .build();
+        }else {
+            if(expireTime >= 0)return Caffeine.newBuilder()
+                    .expireAfterWrite(expireTime,timeUnit)
+                    .initialCapacity(initSize)
+                    .maximumSize(maxSize)
+                    .build();
+            else return Caffeine.newBuilder()
+                    .initialCapacity(initSize)
+                    .maximumSize(maxSize)
+                    .build();
+        }
     }
 
 

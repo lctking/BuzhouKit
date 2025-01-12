@@ -28,6 +28,9 @@ public class testController {
             exceptionClass = CustomizeException.class
     )
     public void testIdempotentOnDistributedCache(@RequestBody UserDO userDO){
+        if(userDO != null && userDO.getId() == 1L){
+            throw new RuntimeException();
+        }
         insertUser(userDO);
     }
 
@@ -41,6 +44,9 @@ public class testController {
             exceptionClass = CustomizeException.class
     )
     public void testIdempotentOnLocalCache(@RequestBody UserDO userDO){
+        if(userDO != null && userDO.getId() == 1L){
+            throw new RuntimeException();
+        }
         insertUser(userDO);
     }
 

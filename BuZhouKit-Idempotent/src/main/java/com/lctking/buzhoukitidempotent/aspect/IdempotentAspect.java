@@ -21,10 +21,11 @@ public class IdempotentAspect {
         try{
             instance.proceed(joinPoint,idempotent);
             result = joinPoint.proceed();
-            instance.postProcess();
         } catch (Throwable e) {
             instance.exceptionProcess();
             throw new RuntimeException(e);
+        } finally {
+            instance.postProcess();
         }
         return result;
     }
